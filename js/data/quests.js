@@ -81,6 +81,7 @@
       beats: [
         { id: 'b4-1', goal: '별채에 계신 임금께 가 보자', talk: 'king', steps: ['c4-1'] },
         { id: 'b4-2', goal: '별채 방에 들어가 다섯 글자로 우리말을 적어 보자', at: 'room', steps: ['c4-2'] },
+        { id: 'b4-2b', goal: '소리를 살피는 자리에 앉아 획을 더한 글자를 제자리에 놓아 보자', at: 'sound', steps: ['c4-2b'] },
         { id: 'b4-3', goal: '임금께 가서 맡을 갈래를 아뢰자', talk: 'king', steps: ['c4-3'] },
         { id: 'b4-4', goal: '신숙주가 무언가를 묻고 싶어 한다', talk: 'sinsuk', steps: ['c4-4'] },
       ],
@@ -101,6 +102,7 @@
         { id: 'b5-1', auto: true, steps: ['c5-1'] },
         { id: 'b5-2', goal: '박연에게 가서 가운뎃소리를 맞춰 보자', talk: 'bakyeon', steps: ['c5-2'] },
         { id: 'b5-3', goal: '임금께 가서 낱자를 모으는 법을 아뢰자', talk: 'king', steps: ['c5-3'] },
+        { id: 'b5-3b', goal: '별채 방에 들어가 낱자를 모아 글자를 만들어 보자', at: 'room', steps: ['c5-3b'] },
         { id: 'b5-4', goal: '수련 — 세 자리 가운데 골라 닦자', train: { step: 'c5-4', at: { sound: 'mu', books: 'byeong', people: 'sul' } } },
         { id: 'b5-4k', say: [{ who: 'jeongin', t: '세 철 동안 닦은 것을 이제 몸에 익히시오. 무엇을 닦았느냐에 따라 쓸 수 있는 **기술**이 다르오.' }], skillTree: true },
         { id: 'b5-5', goal: '임금께서 두고 가신 함을 열어 물건을 고르자', at: 'chest', steps: ['c5-5'] },

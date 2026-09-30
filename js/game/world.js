@@ -1194,7 +1194,7 @@
     if (st.chDone[chId]) {
       for (const s of ch.steps) delete st.done[s.id];
       for (const b of q.beats) delete st.done['b:' + b.id];
-      for (const k of Object.keys(st.flags)) if (k === 'trainProg' || k.startsWith('snap:')) delete st.flags[k];
+      for (const k of Object.keys(st.flags)) if (k === 'trainProg' || k === 'buildProg' || k.startsWith('snap:')) delete st.flags[k];
       delete st.chDone[chId];
       G.save.write();
     }

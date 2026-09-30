@@ -19,7 +19,7 @@ const { STORY, PEOPLE, WORKS, STAGES, PASSAGES, BATTLE, NOTES, SPRITES, MAPS, QU
 const problems = [];
 const bad = (m) => problems.push(m);
 
-const TYPES = new Set(['say', 'choice', 'name', 'gender', 'alias', 'blocked', 'train', 'relic', 'battle']);
+const TYPES = new Set(['say', 'choice', 'name', 'gender', 'alias', 'blocked', 'train', 'build', 'relic', 'battle']);
 const NAMES = new Set(['성명', '이름', '성', '호', '공명', '부', '아이', '전', '남장명']);
 const JOSA = new Set(['이', '가', '은', '는', '을', '를', '과', '와', '으로', '로', '아', '야', '이여', '여', '이라', '라']);
 const MUSIC = new Set(['market', 'court', 'heaven', 'child', 'scheme', 'ruin', 'mountain', 'palace', 'tension', 'battle', 'final', 'victory', 'boudoir']);
@@ -57,6 +57,40 @@ function checkLine(where, l) {
   if (l.card) { checkText(where, l.card.title); checkText(where, l.card.body); }
 }
 
+// 제자 원리 실습(build) 점검: 답이 실제로 만들어지는지 확인한다
+const B_CHO = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+const B_JUNG = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'];
+const B_JONG = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+const bCompose = (c, v, t) => {
+  const ci = B_CHO.indexOf(c), vi = B_JUNG.indexOf(v), ti = B_JONG.indexOf(t || '');
+  return ci < 0 || vi < 0 || ti < 0 ? '' : String.fromCharCode(0xac00 + (ci * 21 + vi) * 28 + ti);
+};
+function checkBuild(w, s) {
+  if (s.mode === 'hapja') {
+    for (const k of ['cho', 'jung']) if (!Array.isArray(s[k]) || !s[k].length) bad(`${w}: ${k} 목록 없음`);
+    for (const t of s.targets || []) {
+      checkText(w, t.hint); checkText(w, t.why);
+      if ([...t.word].length !== 1) bad(`${w}: 낱말 «${t.word}»은 한 글자가 아니다`);
+      // 주어진 낱자 목록만으로 그 글자를 만들 수 있어야 한다
+      let found = '';
+      for (const c of s.cho) for (const v of s.jung) for (const j of s.jong || ['']) if (bCompose(c, v, j) === t.word) found = c + v + j;
+      if (!found) bad(`${w}: «${t.word}»을 주어진 낱자로 만들 수 없다`);
+    }
+    if (!(s.targets || []).length) bad(`${w}: 만들 낱말이 없음`);
+    return;
+  }
+  const pool = (s.pool || []).slice();
+  for (const row of s.rows || []) {
+    if (!row.base || !row.name) bad(`${w}: 줄에 기본자·이름이 없음`);
+    for (const ans of row.fill || []) {
+      const i = pool.indexOf(ans);
+      if (i < 0) bad(`${w}: 답 ${ans}이 놓을 글자 목록에 없다`); else pool.splice(i, 1);
+    }
+  }
+  if (!(s.rows || []).length) bad(`${w}: 채울 줄이 없음`);
+  if (s.okText) checkText(w, s.okText);
+}
+
 // 단계 점검
 const ids = new Set();
 for (const ch of STORY) {
@@ -75,6 +109,7 @@ for (const ch of STORY) {
     if (s.type === 'battle' && !BATTLE.enemies[s.enemy]) bad(`${w}: 없는 적 ${s.enemy}`);
     if (s.type === 'train') for (const k in s.opts) for (const l of s.opts[k].reply) checkLine(w, l);
     if (s.fiction && !NOTES.fiction[s.fiction]) bad(`${w}: 없는 게임 설정 카드 ${s.fiction}`);
+    if (s.type === 'build') checkBuild(w, s);
   }
 }
 // 작품·낯선 대목

@@ -1,7 +1,7 @@
 'use strict';
 // 단계 실행기: 단계 하나를 화면에 펼치고, 끝나면 resolve 한다.
 // ctx = { main, tray(content), trayEl(), refresh() }
-// 단계 종류: say · choice · name · blocked · train · relic · battle (gender·alias는 원작에서 쓰던 것으로, 이 판에서는 쓰지 않는다)
+// 단계 종류: say · choice · name · blocked · train · build · relic · battle (gender·alias는 원작에서 쓰던 것으로, 이 판에서는 쓰지 않는다)
 (function () {
   const { h, wait, T, boldNodes } = G.util;
   const ui = G.ui;
@@ -363,6 +363,207 @@
     }
     st.flags.train = picked; G.save.write();
   };
+
+  // ───────── build: 제자 원리 실습(직접 글자를 만들어 본다) ─────────
+  //  mode 'gahoek' — 기본자 옆 빈칸에 가획자를 놓아 본다
+  //  mode 'hapja'  — 첫소리·가운뎃소리·끝소리를 골라 한 글자로 모아 본다(부서법)
+  //  놓을 때마다 st.flags.buildProg[단계id]에 적어 둔다.
+  //  중간에 그만두고 나중에 이어 해도 놓은 것이 그대로 남는다.
+  const CHO = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+  const JUNG = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'];
+  const JONG = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+  // 낱자 셋을 한 글자로 모은다(유니코드 한글 조합)
+  steps.compose = function (cho, jung, jong) {
+    const c = CHO.indexOf(cho), v = JUNG.indexOf(jung), t = JONG.indexOf(jong || '');
+    if (c < 0 || v < 0 || t < 0) return '';
+    return String.fromCharCode(0xac00 + (c * 21 + v) * 28 + t);
+  };
+  // 첫소리 아래에 붙여 쓰는 가운뎃소리(부서법)
+  const UNDER = ['ㆍ', 'ㅡ', 'ㅗ', 'ㅜ', 'ㅛ', 'ㅠ'];
+
+  function buildProg(step) {
+    const st = S();
+    const all = st.flags.buildProg || (st.flags.buildProg = {});
+    return all[step.id] || (all[step.id] = {});
+  }
+
+  steps.build = async function (step, ctx) {
+    if (step.scene) ctx.main.appendChild(scene(step.scene, '.short'));
+    for (const l of step.pre || []) { const el = steps.line(l, ctx); if (el) ctx.main.appendChild(el); }
+    if (step.mode === 'hapja') await buildHapja(step, ctx);
+    else await buildGahoek(step, ctx);
+    const after = step.after || [];
+    for (let i = 0; i < after.length; i++) {
+      const el = steps.line(after[i], ctx); if (!el) continue;
+      ctx.main.appendChild(el); G.audio.page(); el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      await nextButton(ctx, i === after.length - 1 ? '다음 ▶' : '▶');
+    }
+    if (step.my) steps.apply({ my: step.my }, ctx);
+    const st = S();
+    delete st.flags.buildProg[step.id];
+    G.save.write();
+  };
+
+  // ── 가획: 기본자 옆 빈칸을 채운다 ──
+  async function buildGahoek(step, ctx) {
+    const p = buildProg(step);
+    p.placed = p.placed || {};
+    p.tries = p.tries || 0;
+    const board = h('div.build'); ctx.main.appendChild(board);
+    const fb = h('div'); ctx.main.appendChild(fb);
+    let held = null;
+
+    const keyOf = (ri, si) => 'r' + ri + 's' + si;
+    const slotCount = step.rows.reduce((n, r) => n + r.fill.length, 0);
+    const answers = [];
+    step.rows.forEach((row, ri) => row.fill.forEach((ans, si) => answers.push({ k: keyOf(ri, si), ans })));
+
+    function draw() {
+      board.innerHTML = '';
+      step.rows.forEach((row, ri) => {
+        const line = h('div.build-row');
+        line.append(h('span.build-name', row.name), h('span.build-base', row.base));
+        row.fill.forEach((_, si) => {
+          const k = keyOf(ri, si), v = p.placed[k];
+          line.appendChild(h('span.build-arrow', '＋획'));
+          const slot = h('button.build-slot' + (v ? '.full' : '') + (held && !v ? '.open' : ''),
+            { type: 'button', 'aria-label': row.name + ' ' + (si + 1) + '번째 빈칸' }, v || '');
+          slot.addEventListener('click', () => {
+            G.audio.tap();
+            if (v) { delete p.placed[k]; G.save.write(); draw(); return; }
+            if (!held) return;
+            p.placed[k] = held; held = null; G.save.write(); G.audio.pick(); draw();
+          });
+          line.appendChild(slot);
+        });
+        board.appendChild(line);
+      });
+      const used = Object.keys(p.placed).map((k) => p.placed[k]);
+      const left = step.pool.slice();
+      for (const u of used) { const i = left.indexOf(u); if (i >= 0) left.splice(i, 1); }
+      const pool = h('div.build-pool');
+      pool.appendChild(h('span.build-poolhead', left.length ? '놓을 글자' : '다 놓았어요'));
+      for (const ch of left) {
+        const chip = h('button.build-chip' + (held === ch ? '.held' : ''), { type: 'button' }, ch);
+        chip.addEventListener('click', () => { G.audio.tap(); held = held === ch ? null : ch; draw(); });
+        pool.appendChild(chip);
+      }
+      board.appendChild(pool);
+      check.disabled = Object.keys(p.placed).length < slotCount;
+    }
+
+    const check = h('button.btn.primary', { type: 'button' }, '맞추어 보기');
+    const reveal = h('button.btn.ghost', { type: 'button' }, '정답 보기');
+    const teach = S().teacher ? h('button.btn.small.ghost', { type: 'button' }, '정답 채우기(선생님용)') : null;
+    if (teach) teach.addEventListener('click', () => { answers.forEach((a) => { p.placed[a.k] = a.ans; }); held = null; draw(); check.click(); });
+    draw();
+
+    await new Promise((res) => {
+      check.addEventListener('click', () => {
+        G.audio.tap();
+        p.tries++; G.save.write();
+        const wrong = answers.filter((a) => p.placed[a.k] !== a.ans).map((a) => a.k);
+        const slots = board.querySelectorAll('.build-slot');
+        answers.forEach((a, i) => { if (slots[i]) slots[i].classList.toggle('bad', wrong.indexOf(a.k) >= 0); });
+        if (!wrong.length) {
+          if (p.tries === 1) G.save.stat('build', true);
+          G.audio.ok(); ui.stamp('正');
+          feedback(fb, 'ok', step.okText || '모두 제자리예요. 같은 자리에서 나는 소리끼리 **모양이 닮고**, 소리가 세질수록 **획이 하나 늘어납니다**.');
+          slots.forEach((el) => { el.disabled = true; });
+          board.querySelectorAll('.build-chip').forEach((el) => { el.disabled = true; });
+          ctx.tray(null); res(); return;
+        }
+        if (p.tries === 1) { G.save.stat('build', false); G.save.wrong('build', step.wrongNote || '가획: 기본자에 획을 더해 만드는 글자'); }
+        G.audio.no();
+        feedback(fb, 'warn', '**' + (slotCount - wrong.length) + '개**가 제자리에 있어요. 붉게 표시된 칸을 다시 생각해 보세요.'
+          + (p.tries >= 2 ? ' 막히면 **정답 보기**를 눌러도 괜찮아요.' : ''));
+        if (p.tries >= 2) ctx.tray(h('div.actions', reveal, teach, check));
+      });
+      reveal.addEventListener('click', () => {
+        G.audio.tap();
+        p.helped = true; S().helped++;
+        answers.forEach((a) => { p.placed[a.k] = a.ans; });
+        held = null; G.save.write(); draw();
+        feedback(fb, 'warn', '정답을 채웠어요. **왜 그 자리인지** 한 번 더 읽어 보고 «맞추어 보기»를 누르세요.');
+      });
+      ctx.tray(h('div.actions', teach, check));
+    });
+  }
+
+  // ── 합자: 낱자를 모아 한 글자로 ──
+  async function buildHapja(step, ctx) {
+    const p = buildProg(step);
+    p.done = p.done || 0;
+    p.t = p.t || {};
+    const board = h('div.build'); ctx.main.appendChild(board);
+    const fb = h('div'); ctx.main.appendChild(fb);
+
+    for (let i = p.done; i < step.targets.length; i++) {
+      const t = step.targets[i];
+      const sel = { cho: '', jung: '', jong: '' };
+      board.innerHTML = ''; fb.innerHTML = '';
+      board.appendChild(h('div.build-head', h('b', `모아쓰기 ${i + 1} / ${step.targets.length}`), h('span.small.muted', t.hint)));
+      const view = h('div.build-view'); board.appendChild(view);
+      const note = h('div.build-note'); board.appendChild(note);
+      const rack = h('div.build-rack'); board.appendChild(rack);
+      const rows = [['cho', '첫소리', step.cho], ['jung', '가운뎃소리', step.jung], ['jong', '끝소리', step.jong || ['']]];
+      const check = h('button.btn.primary', { type: 'button' }, '이 글자로 한다');
+      const teach = S().teacher ? h('button.btn.small.ghost', { type: 'button' }, '정답 고르기(선생님용)') : null;
+      if (teach) teach.addEventListener('click', () => {
+        for (const c of step.cho) for (const v of step.jung) for (const j of (step.jong || [''])) {
+          if (steps.compose(c, v, j) === t.word) { sel.cho = c; sel.jung = v; sel.jong = j; }
+        }
+        draw(); check.click();
+      });
+
+      function draw() {
+        const made = steps.compose(sel.cho, sel.jung, sel.jong);
+        view.innerHTML = '';
+        view.appendChild(h('span.build-made' + (made ? '' : '.empty'), made || '□'));
+        note.textContent = !sel.jung ? ''
+          : UNDER.indexOf(sel.jung) >= 0
+            ? '가운뎃소리 ' + sel.jung + '는 첫소리 아래에 붙여 씁니다.'
+            : '가운뎃소리 ' + sel.jung + '는 첫소리 오른쪽에 붙여 씁니다.';
+        rack.innerHTML = '';
+        for (const row of rows) {
+          const key = row[0], label = row[1], list = row[2];
+          const line = h('div.build-row');
+          line.appendChild(h('span.build-name', label));
+          for (const ch of list) {
+            const on = sel[key] === ch;
+            const b = h('button.build-chip' + (on ? '.held' : ''), { type: 'button' }, ch || '없음');
+            b.addEventListener('click', () => { G.audio.pick(); sel[key] = ch; draw(); });
+            line.appendChild(b);
+          }
+          rack.appendChild(line);
+        }
+        check.disabled = !(sel.cho && sel.jung);
+      }
+      draw();
+
+      await new Promise((res) => {
+        check.addEventListener('click', function onCheck() {
+          G.audio.tap();
+          p.t[i] = (p.t[i] || 0) + 1; G.save.write();
+          const made = steps.compose(sel.cho, sel.jung, sel.jong);
+          if (made === t.word) {
+            G.save.stat('build', p.t[i] === 1);
+            G.audio.ok(); ui.stamp('正');
+            feedback(fb, 'ok', '「' + t.word + '」. ' + t.why);
+            rack.querySelectorAll('.build-chip').forEach((el) => { el.disabled = true; });
+            check.removeEventListener('click', onCheck);
+            ctx.tray(null); res(); return;
+          }
+          if (p.t[i] === 1) G.save.wrong('build', '모아쓰기: ' + t.hint);
+          G.audio.no();
+          feedback(fb, 'warn', made ? '지금은 「' + made + '」이 되었어요. 세 소리를 다시 골라 보세요.' : '첫소리와 가운뎃소리를 골라야 한 글자가 됩니다.');
+        });
+        ctx.tray(h('div.actions', teach, check));
+      });
+      p.done = i + 1; G.save.write();
+      if (i < step.targets.length - 1) await nextButton(ctx, '다음 글자 ▶');
+    }
+  }
 
   // ───────── relic: 임금이 내린 물건 고르기 ─────────
   steps.relic = async function (step, ctx) {

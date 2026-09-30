@@ -1,6 +1,6 @@
 // 전투 난이도 모의실험(브라우저 없이): node balance.mjs
 // js/game/battle.js의 규칙을 그대로 옮겨, 능력치 배분과 카드 고르는 방식(아무거나 / 적의 행동을 보고)에 따라
-// 턴 수와 천우신조가 몇 번 나오는지 잰다.
+// 턴 수와 임금의 말씀이 몇 번 나오는지 잰다.
 import fs from 'node:fs';
 import vm from 'node:vm';
 import path from 'node:path';
@@ -78,13 +78,13 @@ const builds = {
   '武·術(武4 兵1 術4)': { mu: 4, byeong: 1, sul: 4 },
   '兵·術(武1 兵4 術4)': { mu: 1, byeong: 4, sul: 4 },
 };
-const fights = [['phantom', '5장 대련'], ['vanguard', '6장 선봉장'], ['boss', '7장 결전'], ['raiders', 'c 6장'], ['boss_c', 'c 7장'], ['second', 'a 재출전']];
-console.log('능력치 배분 / 적 / 고르는 방식 → 평균 턴 · 천우신조가 나온 비율(200판)');
+const fights = [['doubt', '5장 맞논변'], ['choemal', '6장 어전 논변'], ['last', '7장 마지막 물음']];
+console.log('능력치 배분 / 적 / 고르는 방식 → 평균 턴 · 임금의 말씀이 나온 비율(200판)');
 for (const [bn, abil] of Object.entries(builds)) {
   const row = [];
   for (const [eid, label] of fights) for (const policy of ['random', 'smart']) {
     let T = 0, H = 0;
-    for (let i = 0; i < 200; i++) { const r = fight(eid, abil, 'sword', policy, rnd, eid === 'phantom'); T += r.turns; H += r.heaven > 0 ? 1 : 0; }
+    for (let i = 0; i < 200; i++) { const r = fight(eid, abil, 'sword', policy, rnd, eid === 'doubt'); T += r.turns; H += r.heaven > 0 ? 1 : 0; }
     row.push(`${label}${policy === 'random' ? '(아무거나)' : '(수 읽기)'} ${(T / 200).toFixed(1)}턴 ${Math.round(H / 2)}%`);
   }
   console.log('\n' + bn); for (const r of row) console.log('  ' + r);

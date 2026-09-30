@@ -46,7 +46,7 @@ await setup(() => {
   const s = G.save.fresh();
   Object.assign(s, { path: 'm', surname: '홍', given: '대웅', look: 'youth', abil: { mu: 1, byeong: 1, sul: 1 } });
   for (const c of STORY.slice(0, 5)) { s.chDone[c.id] = true; for (const x of c.steps) s.done[x.id] = true; for (const b of QUESTS[c.id].beats) s.done['b:' + b.id] = true; }
-  for (const id of ['c5-1', 'c5-2', 'c5-3', 'b:b5-1', 'b:b5-2', 'b:b5-3']) s.done[id] = true;
+  for (const id of ['c5-1', 'c5-2', 'c5-3', 'c5-3b', 'b:b5-1', 'b:b5-2', 'b:b5-3', 'b:b5-3b']) s.done[id] = true;
   localStorage.setItem('jeongeum-road-v1', JSON.stringify(s));
 });
 await resume();
@@ -104,6 +104,47 @@ const b3 = await st();
 if (b3.abil.mu !== 1 || b3.abil.byeong !== 2) fail('다시 고른 뒤 능력치가 맞지 않음: ' + JSON.stringify(b3.abil));
 if (b3.flags['snap:c1-2']) fail('단계 보상 기록이 남아 있음');
 console.log('선택 이어 하기:', JSON.stringify({ firstPick: b1, beforeRepick: b2, final: b3.abil, care: b3.flags.care }));
+
+// 3) 제자 원리 실습 도중(가획) — 몇 개 놓고 껐다가 이어 하면 놓은 것이 그대로 남는다
+await setup(() => {
+  localStorage.clear();
+  const s = G.save.fresh();
+  Object.assign(s, { path: 'm', surname: '홍', given: '대웅', look: 'youth', teacher: true, abil: { mu: 1, byeong: 1, sul: 1 } });
+  for (const c of STORY.slice(0, 5)) { s.chDone[c.id] = true; for (const x of c.steps) s.done[x.id] = true; for (const b of QUESTS[c.id].beats) s.done['b:' + b.id] = true; }
+  for (const id of ['c4-1', 'c4-2', 'b:b4-1', 'b:b4-2']) s.done[id] = true;
+  delete s.chDone.ch4;
+  for (const x of STORY.find((c) => c.id === 'ch4').steps) if (!['c4-1', 'c4-2'].includes(x.id)) delete s.done[x.id];
+  for (const b of QUESTS.ch4.beats) if (!['b4-1', 'b4-2'].includes(b.id)) delete s.done['b:' + b.id];
+  localStorage.setItem('jeongeum-road-v1', JSON.stringify(s));
+});
+await resume();
+await waitGoal();
+await page.evaluate(() => G.world.test.complete());
+await page.waitForSelector('.build-slot');
+// 앞말을 다 넘긴 뒤 글자 두 개를 놓는다: ㅋ(어금닛소리), ㄷ(혓소리 첫 칸)
+for (const ch of ['ㅋ', 'ㄷ']) {
+  await page.locator('.build-chip', { hasText: new RegExp('^' + ch + '$') }).first().click();
+  await page.locator('.build-slot:not(.full)').first().click();
+  await page.waitForTimeout(120);
+}
+const mid = await st();
+const placed = mid.flags.buildProg && mid.flags.buildProg['c4-2b'] && mid.flags.buildProg['c4-2b'].placed;
+if (!placed || Object.keys(placed).length !== 2) fail('놓은 글자가 저장되지 않음: ' + JSON.stringify(placed));
+await page.reload();
+await resume();
+await waitGoal();
+await page.evaluate(() => G.world.test.complete());
+await page.waitForSelector('.build-slot.full');
+const back = await page.locator('.build-slot.full').allTextContents();
+if (back.join('') !== 'ㅋㄷ') fail('이어 하기 뒤 놓은 글자가 사라짐: ' + JSON.stringify(back));
+// 나머지를 선생님용으로 채워 마치면 진행 기록이 지워진다
+await page.locator('button', { hasText: '정답 채우기(선생님용)' }).click().catch(() => {});
+await page.waitForTimeout(400);
+await nextUntilClosed();
+await page.waitForTimeout(300);
+const done = await st();
+if (done.flags.buildProg && done.flags.buildProg['c4-2b']) fail('실습 진행 기록이 남아 있음');
+console.log('실습 이어 하기:', JSON.stringify({ midPlaced: Object.keys(placed).length, afterReload: back }));
 
 console.log(errors.length ? '실패:\n - ' + errors.join('\n - ') : '이어 하기 검사 통과');
 await browser.close();

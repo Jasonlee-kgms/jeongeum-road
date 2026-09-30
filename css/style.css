@@ -186,6 +186,30 @@ b { font-weight: 700; }
 .tray-hint { font-size: .86em; color: var(--ink-2); text-align: center; padding: 4px 0; }
 .train-head { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; }
 
+/* 제자 원리 실습(가획·모아쓰기) */
+.build { background: var(--paper-3); border-radius: var(--radius); padding: 14px 12px; box-shadow: var(--shadow); margin: 12px 0; }
+.build-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.build-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; padding: 7px 0; border-bottom: 1px dashed rgba(42,33,25,.16); }
+.build-row:last-child { border-bottom: 0; }
+.build-name { font-size: .84em; color: var(--ink-2); width: 5.6em; flex: none; line-height: 1.25; }
+.build-base { font-family: var(--serif); font-weight: 700; font-size: 1.7em; width: 1.6em; height: 1.6em; display: flex; align-items: center; justify-content: center; border: 2px solid var(--ink-2); border-radius: 10px; background: #fffaf0; }
+.build-arrow { font-size: .74em; color: var(--ink-3); letter-spacing: -.02em; }
+.build-slot { font-family: var(--serif); font-weight: 700; font-size: 1.7em; width: 1.6em; height: 1.6em; display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(42,33,25,.4); border-radius: 10px; background: rgba(255,255,255,.35); color: var(--ink); padding: 0; }
+.build-slot.full { border-style: solid; border-color: var(--gold); background: #fffaf0; }
+.build-slot.open { border-color: var(--gold); background: rgba(184,137,46,.14); animation: pulse 1.4s infinite; }
+.build-slot.bad { border-color: var(--seal); color: var(--seal); background: #f6dcd6; }
+.build-slot:disabled { opacity: 1; }
+.build-pool { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; padding-top: 10px; border-top: 1.5px solid rgba(42,33,25,.18); }
+.build-poolhead { font-size: .84em; color: var(--ink-2); width: 100%; }
+.build-chip { font-family: var(--serif); font-weight: 700; font-size: 1.35em; min-width: 2em; min-height: 44px; border: 1.5px solid rgba(42,33,25,.35); border-radius: 10px; background: #fffaf0; color: var(--ink); padding: 2px 8px; }
+.build-chip.held { border-color: var(--gold); border-width: 2.5px; background: rgba(184,137,46,.18); }
+.build-chip:disabled { opacity: .45; }
+.build-view { text-align: center; margin: 4px 0 2px; }
+.build-made { font-family: var(--serif); font-weight: 700; font-size: 3.4em; line-height: 1.1; color: var(--ink); }
+.build-made.empty { color: var(--ink-3); opacity: .5; }
+.build-note { text-align: center; font-size: .86em; color: var(--ink-2); min-height: 1.3em; margin-bottom: 6px; }
+.build-rack { margin-top: 6px; }
+
 /* 이름 짓기 */
 .name-box { background: var(--paper-3); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); margin: 12px 0; }
 .name-input { font: inherit; font-size: 1.15em; padding: 8px 12px; border-radius: 10px; border: 1.5px solid var(--ink-2); background: #fff; width: min(170px, 100%); text-align: center; font-family: var(--serif); font-weight: 700; }

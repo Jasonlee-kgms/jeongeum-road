@@ -575,6 +575,7 @@
         h('div.stat', h('b', pct('stage')), h('span', '장 끝 걸음 판정(첫 시도)')),
         h('div.stat', h('b', pct('passage')), h('span', '처음 보는 자료 걸음 찾기(첫 시도)')),
         h('div.stat', h('b', pct('order')), h('span', '목차 엮기(첫 시도)')),
+        h('div.stat', h('b', pct('build')), h('span', '글자 만들기 실습(첫 시도)')),
         h('div.stat', h('b', st.heaven + '번'), h('span', '임금의 말씀으로 이어 감')),
         st.doubtMax > 0 ? h('div.stat', h('b', st.doubtMax + ' / 100'), h('span', `가장 높았던 반발 · 위기 ${st.crises}번`)) : null,
         h('div.stat', h('b', st.helped + '번'), h('span', '도움(정답 보기)'))),
@@ -748,7 +749,7 @@
     g.strokeStyle = 'rgba(42,33,25,.3)'; g.lineWidth = 1.5; g.strokeRect(50, ly, 900, 300);
     g.fillStyle = '#1f7474'; g.font = `700 26px ${serif}`; g.fillText('사관의 셈 (게임 설정)', 80, ly + 45);
     const pct = (k) => { const s = st.score[k]; return s && s[1] ? `${s[0]} / ${s[1]}` : '—'; };
-    const rows = [['장 끝 걸음 판정 첫 시도', pct('stage')], ['처음 보는 자료 걸음 찾기 첫 시도', pct('passage')], ['목차 엮기 첫 시도', pct('order')], ['임금의 말씀 · 도움', `${st.heaven}번 · ${st.helped}번`]];
+    const rows = [['장 끝 걸음 판정 첫 시도', pct('stage')], ['처음 보는 자료 걸음 찾기 첫 시도', pct('passage')], ['목차 엮기 첫 시도', pct('order')], ['글자 만들기 실습 첫 시도', pct('build')], ['임금의 말씀 · 도움', `${st.heaven}번 · ${st.helped}번`]];
     if (st.doubtMax > 0) rows.push(['가장 높았던 반발', `${st.doubtMax} / 100`]);
     g.font = `23px ${serif}`;
     rows.forEach(([k, v], i) => { g.fillStyle = '#5a4a3a'; g.textAlign = 'left'; g.fillText(k, 80, ly + 90 + i * 36); g.fillStyle = '#2a2119'; g.textAlign = 'right'; g.fillText(v, 920, ly + 90 + i * 36); });

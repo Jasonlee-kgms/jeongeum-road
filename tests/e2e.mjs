@@ -108,6 +108,7 @@ for (let guard = 0; guard < 4000; guard++) {
     else if (q('.stage-grid') && q('.stage-btn:not([disabled])')) kind = 'passage';
     else if (q('.opt.passage:not([disabled])')) kind = 'quiz';
     else if (q('.slots')) kind = 'order';
+    else if (q('.build')) kind = 'build';
     else if (q('.options .opt:not([disabled])')) kind = 'choice';
     const stepId = Object.keys(st.done).length;
     return { kind, where, path: st.path, branch: st.branch, stepId };
@@ -155,6 +156,14 @@ for (let guard = 0; guard < 4000; guard++) {
     const stage = await page.evaluate(() => { const t = document.querySelector('.card.work p').textContent; return PASSAGES.find((p) => t.includes(p.t.replace(/\*\*/g, '').slice(0, 14))).stage; });
     await vis('.stage-btn').nth(stage - 1).click();
     await page.waitForTimeout(200);
+    continue;
+  }
+  if (state.kind === 'build') {
+    const fill = vis('.tray button:has-text("(선생님용)"), .dlg-tray button:has-text("(선생님용)")');
+    if (await fill.count()) { await fill.first().click(); await page.waitForTimeout(300); continue; }
+    const next = vis(PRIMARY);
+    if (await next.count() && await next.first().isEnabled()) { await next.first().click(); continue; }
+    await page.waitForTimeout(250);
     continue;
   }
   if (state.kind === 'order') {

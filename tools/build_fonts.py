@@ -24,8 +24,8 @@ os.makedirs(SRC, exist_ok=True)
 os.makedirs(OUT, exist_ok=True)
 
 URLS = {
-    'NotoSerifKR-VF.ttf': 'https://github.com/google/fonts/raw/main/ofl/notoserifkr/NotoSerifKR%5Bwght%5D.ttf',
-    'NanumBrushScript-Regular.ttf': 'https://github.com/google/fonts/raw/main/ofl/nanumbrushscript/NanumBrushScript-Regular.ttf',
+    'NotoSerifKR-VF.ttf': 'https://raw.githubusercontent.com/google/fonts/main/ofl/notoserifkr/NotoSerifKR%5Bwght%5D.ttf',
+    'NanumBrushScript-Regular.ttf': 'https://raw.githubusercontent.com/google/fonts/main/ofl/nanumbrushscript/NanumBrushScript-Regular.ttf',
     # 라이선스 전문(OFL은 글꼴과 함께 라이선스 전문을 배포하도록 요구한다)
     'OFL-NotoSerifKR.txt': 'https://raw.githubusercontent.com/google/fonts/main/ofl/notoserifkr/OFL.txt',
     'OFL-NanumBrushScript.txt': 'https://raw.githubusercontent.com/google/fonts/main/ofl/nanumbrushscript/OFL.txt',
