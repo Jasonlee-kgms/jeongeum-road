@@ -171,9 +171,9 @@ window.STORY = [
 
   // ───────────────────────── 4장 · 글자를 짓다 ─────────────────────────
   {
-    id: 'ch4', no: '4장', title: '본뜨고, 획을 더하다', stage: 4, music: 'heaven',
+    id: 'ch4', no: '4장', title: '본뜨고, 획을 더하다', stage: 4, music: 'heaven', scene: 'sc_letters',
     steps: [
-      { id: 'c4-1', type: 'say', lines: [
+      { id: 'c4-1', type: 'say', scene: 'sc_letters', lines: [
         '임금은 후원 깊숙한 별채로 자리를 옮겼다. 상 위에는 종이 다섯 장이 놓여 있었다.',
         { who: 'king', t: '소리가 나는 자리를 알았으니, 이제 그 **자리의 모양을 그대로 본떠** 글자를 만들면 어떻겠는가.' },
         { who: 'seongsam', t: '…모양을, 본뜬다는 말씀이옵니까?' },
@@ -299,9 +299,9 @@ window.STORY = [
 
   // ───────────────────────── 6장 · 반대에 부딪히다 ─────────────────────────
   {
-    id: 'ch6', no: '6장', title: '상소가 올라오다', stage: 6, music: 'scheme',
+    id: 'ch6', no: '6장', title: '상소가 올라오다', stage: 6, music: 'scheme', scene: 'sc_nonbyeon',
     steps: [
-      { id: 'c6-1', type: 'say', lines: [
+      { id: 'c6-1', type: 'say', scene: 'sc_nonbyeon', lines: [
         '**세종 25년(1443) 12월**, 실록에 한 줄이 적혔다. "이달에 임금이 친히 언문 스물여덟 자를 지으셨다."',
         { who: 'narrator', t: '드디어 적었소! 그런데 "이달에"라고만 적었소. 무슨 날인지 아무도 일러 주지 않았거든.' },
         '두 달 뒤, 임금은 신하들에게 명하여 중국 운서 『운회』를 새 글자로 옮기게 했다. 일이 밖으로 드러난 것이다.',
@@ -333,7 +333,7 @@ window.STORY = [
           { who: 'king', t: '(낮은 목소리로) 되었다. 이 일은 **어전에서 직접** 묻겠다. 모두 앞뜰로 나오라.' },
         ],
       },
-      { id: 'c6-3', type: 'battle', enemy: 'choemal',
+      { id: 'c6-3', type: 'battle', enemy: 'choemal', scene: 'sc_nonbyeon', bg: 'sc_nonbyeon',
         pre: [
           '근정전 앞뜰에 신하들이 늘어섰다. 임금이 최만리를 앞으로 불렀다.',
           { who: 'king', t: '그대는 운서를 아느냐? **사성(四聲)과 칠음(七音)에 자모가 몇인지** 아느냐? 내가 운서를 바로잡지 않으면 누가 바로잡겠느냐!' },

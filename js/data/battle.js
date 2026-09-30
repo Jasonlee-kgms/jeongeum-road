@@ -41,7 +41,7 @@ window.BATTLE = {
       heaven: '신숙주가 곁에서 운서를 펴 보였다. 막혔던 자리가 트였다.',
     },
     choemal: {
-      name: '집현전 부제학 최만리', pt: 'pt_father', hp: 30,
+      name: '집현전 부제학 최만리', pt: 'pt_father', hp: 30, bg: 'sc_nonbyeon',
       pattern: [['atk', 5], ['guard', 5], ['charge'], ['heavy', 12], ['hex', 3], ['atk', 6]],
       heaven: '임금이 나섰다. "그대는 운서를 아느냐? 사성과 칠음에 자모가 몇인지 아느냐?" 논변이 다시 이어졌다.',
     },
