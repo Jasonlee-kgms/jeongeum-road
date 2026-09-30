@@ -78,8 +78,8 @@ b { font-weight: 700; }
 .title-screen .art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(239,226,195,.55) 0%, rgba(239,226,195,.0) 26%, rgba(239,226,195,.0) 45%, rgba(239,226,195,.9) 72%, var(--paper) 100%); }
 .title-screen .logo { position: relative; margin-bottom: auto; margin-top: 5vh; }
 .title-screen .pre { font-family: var(--serif); font-weight: 700; letter-spacing: .3em; color: var(--seal); font-size: clamp(13px, 3.4vw, 17px); }
-.title-screen h1 { font-family: var(--brush); font-weight: 400; font-size: clamp(60px, 18vw, 112px); line-height: 1; margin: .08em 0 0; letter-spacing: .04em; text-shadow: 0 2px 0 rgba(255,255,255,.55), 0 0 18px rgba(247,239,220,.9); }
-.title-screen .sub { font-family: var(--serif); font-size: clamp(14px, 3.8vw, 19px); margin-top: .5em; font-weight: 700; color: var(--ink-2); text-shadow: 0 0 10px rgba(247,239,220,.95); }
+.title-screen h1 { font-family: var(--brush); font-weight: 400; font-size: clamp(60px, 18vw, 112px); line-height: 1.18; margin: .16em 0 0; letter-spacing: .04em; text-shadow: 0 2px 0 rgba(255,255,255,.55), 0 0 18px rgba(247,239,220,.9); }
+.title-screen .sub { font-family: var(--serif); font-size: clamp(14px, 3.8vw, 19px); margin-top: .35em; font-weight: 700; color: var(--ink-2); text-shadow: 0 0 10px rgba(247,239,220,.95); }
 .title-screen .menu { position: relative; display: flex; flex-direction: column; gap: 10px; width: min(360px, 100%); }
 .title-screen .credit { position: relative; margin-top: 14px; font-size: .78em; color: var(--ink-2); }
 .title-screen .credit.maker, .title-screen .credit.bgm { margin-top: 4px; }
