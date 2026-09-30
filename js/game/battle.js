@@ -9,7 +9,7 @@
   const bt = (G.battle = {});
 
   const STAT_HAN = { mu: '聲', byeong: '理', sul: '民' };
-  const STAT_KO = { mu: '무예', byeong: '병법', sul: '도술' };
+  const STAT_KO = { mu: '소리', byeong: '이치', sul: '백성' };
   bt.STAT_HAN = STAT_HAN; bt.STAT_KO = STAT_KO;
 
   const val = (pair, stat) => Math.round(pair[0] + pair[1] * (S().abil[stat] || 1));

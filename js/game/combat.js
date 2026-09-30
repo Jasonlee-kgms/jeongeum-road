@@ -63,7 +63,7 @@
   };
   C.hpBonus = () => (C.has('formation') ? 4 : 0);
   C.guard = () => (C.has('formation') ? 1 : 0);
-  const cdScale = () => Math.max(0.6, 1 - 0.05 * S().abil.sul); // 도술이 높을수록 기술을 자주 쓴다
+  const cdScale = () => Math.max(0.6, 1 - 0.05 * S().abil.sul); // 民(백성)이 높을수록 기술을 자주 쓴다
   C.cooldown = (id) => ({ left: cds[id] || 0, full: (SK().list[id].cd || 1) * cdScale() });
   C.reset = function () { for (const k in cds) delete cds[k]; };
 

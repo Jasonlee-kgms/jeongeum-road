@@ -391,7 +391,7 @@
     if (!after.length) await nextButton(ctx);
   };
 
-  // ───────── battle: 군담(카드 전투) ─────────
+  // ───────── battle: 논변(카드) ─────────
   steps.battle = async function (step, ctx) {
     const st = S();
     if (step.pre && step.pre.length) {

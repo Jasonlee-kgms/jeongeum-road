@@ -1128,7 +1128,7 @@
     return [x, y];
   }
 
-  // 수련: 수련터 세 곳 가운데 골라 세 번(무예는 허수아비를 직접 벤다)
+  // 수련: 수련터 세 곳 가운데 골라 세 번
   async function train(b, ch) {
     const st = S();
     const step = stepById(ch, b.train.step);
@@ -1162,7 +1162,7 @@
     }
     st.flags.train = picked.slice(); delete st.flags.trainProg; st.done[step.id] = true; G.save.write();
   }
-  // 무예 수련터: 가까이 가서 누르면 "공격으로 베라"는 안내
+  // 표적이 있는 수련터용 안내(이 판에서는 쓰지 않는다)
   W.trainHint = function () { G.ui.toast('공격(⚔ · Space)으로 허수아비를 세 번 베어 보세요'); };
 
   async function titleCard(ch, resume) {

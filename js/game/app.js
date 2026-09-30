@@ -570,7 +570,7 @@
     // 4) 기록
     const pct = (k) => { const s = st.score[k]; return s && s[1] ? `${s[0]} / ${s[1]}` : '—'; };
     main.appendChild(h('div.ledger',
-      h('div.lh', '전기수의 셈', ui.tag('fiction')),
+      h('div.lh', '사관의 셈', ui.tag('fiction')),
       h('div.stats',
         h('div.stat', h('b', pct('stage')), h('span', '장 끝 걸음 판정(첫 시도)')),
         h('div.stat', h('b', pct('passage')), h('span', '처음 보는 자료 걸음 찾기(첫 시도)')),
@@ -694,7 +694,7 @@
     return box;
   };
 
-  // ───────── 이미지 저장: 방각본 표지 + 목차 + 셈 + 한 줄 답 ─────────
+  // ───────── 이미지 저장: 표지 + 목차 + 셈 + 한 줄 답 ─────────
   app.saveImage = function () {
     const st = S();
     const W = 1000, H = 1500, c = document.createElement('canvas');
