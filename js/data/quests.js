@@ -68,7 +68,7 @@
 
     // ───────── 4장 · 글자를 짓다 ─────────
     ch4: {
-      map: 'annex', spawn: [14.5, 20, 'up'], lessonEnd: '1차시',
+      map: 'annex', spawn: [14.5, 20, 'up'],
       intro: '후원 깊숙한 곳의 **별채**예요. 이 일은 아직 아무도 모릅니다.',
       cast: {
         annex: {
