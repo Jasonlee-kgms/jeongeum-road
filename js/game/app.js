@@ -240,7 +240,7 @@
     main.appendChild(h('div.center', h('span.seal-mark', { style: { fontSize: '1.3em' } }, '完'), h('h2', { style: { fontFamily: 'var(--serif)' } }, ch.no + ' 끝')));
     if (ch.stage) main.appendChild(app.lifeStrip(ch.stage));
     const qd = window.QUESTS && QUESTS[ch.id];
-    if (qd && qd.lessonEnd) main.appendChild(ui.card({ kind: 'note', title: qd.lessonEnd + G.util.josa(qd.lessonEnd, '은') + ' 여기까지', body: '창제의 **1~4번째 걸음**을 걸었어요. 다음 시간에 타이틀 화면에서 **이어 하기**를 누르면 5장부터 이어져요(같은 기기·같은 브라우저에서).' }));
+    if (qd && qd.lessonEnd) main.appendChild(ui.card({ kind: 'note', title: '여기까지가 절반이에요', body: '일곱 걸음 가운데 **네 걸음**을 걸었어요. 여기서 멈춰도 좋아요.\n\n다음에 타이틀 화면의 **이어 하기**를 누르면 5장부터 이어져요(같은 기기·같은 브라우저에서). 장 중간에 그만두어도 그 장의 다음 할 일부터 이어집니다.' }));
     const next = STORY[ci + 1];
     if (!next) { await steps().nextButton(ctx, '이야기를 마무리한다 ▶'); if (app._playToken === token) app.result(); return; }
     const go = h('button.btn.primary', { on: { click: () => { document.removeEventListener('keydown', key); G.audio.tap(); app.play(next.id); } } }, next.no + ' 펼치기 ▶');
