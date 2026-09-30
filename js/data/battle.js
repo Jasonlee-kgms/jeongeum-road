@@ -31,12 +31,12 @@ window.BATTLE = {
   },
   enemies: {
     doubt: {
-      name: '스스로 세워 본 반론', pt: 'pt_phantom', hp: 20, bg: 'sc_market',
+      name: '스스로 세워 본 반론', pt: 'pt_phantom', hp: 20, bg: 'sc_annex',
       pattern: [['atk', 3], ['atk', 4], ['charge'], ['heavy', 9], ['guard', 4], ['atk', 4]],
       heaven: '정인지가 붓을 내려놓으며 말했다. "서두르지 마시오. 한 조목씩 보시오."',
     },
     minor: {
-      name: '몰려드는 의문', pt: 'pt_phantom', hp: 22, bg: 'sc_market',
+      name: '몰려드는 의문', pt: 'pt_phantom', hp: 22, bg: 'sc_jiphyeon',
       pattern: [['atk', 4], ['atk', 5], ['charge'], ['heavy', 10], ['guard', 4]],
       heaven: '신숙주가 곁에서 운서를 펴 보였다. 막혔던 자리가 트였다.',
     },
@@ -46,7 +46,7 @@ window.BATTLE = {
       heaven: '임금이 나섰다. "그대는 운서를 아느냐? 사성과 칠음에 자모가 몇인지 아느냐?" 논변이 다시 이어졌다.',
     },
     last: {
-      name: '마지막 물음', pt: 'pt_phantom', hp: 36, bg: 'sc_market', final: true,
+      name: '마지막 물음', pt: 'pt_phantom', hp: 36, bg: 'sc_haerye', final: true,
       pattern: [['atk', 6], ['hex', 4], ['charge'], ['heavy', 14], ['guard', 7], ['atk', 7]],
       heaven: '임금의 말이 떠올랐다. "내가 이를 가엾게 여겨…" 처음 마음으로 돌아가자 다시 붓을 들 수 있었다.',
     },

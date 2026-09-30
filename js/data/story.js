@@ -119,7 +119,7 @@ window.STORY = [
 
   // ───────────────────────── 3장 · 소리를 살피다 ─────────────────────────
   {
-    id: 'ch3', no: '3장', title: '소리가 나는 자리', stage: 3, music: 'court',
+    id: 'ch3', no: '3장', title: '소리가 나는 자리', stage: 3, music: 'court', scene: 'sc_jiphyeon',
     steps: [
       { id: 'c3-1', type: 'say', lines: [
         '며칠 뒤, 집현전에 갓 들어온 {성명:은} 뜻밖의 부름을 받았다. 임금이 젊은 학사 몇을 따로 불러 모은 것이다.',
@@ -130,7 +130,7 @@ window.STORY = [
         { who: 'king', t: '보이지 않으면 만져 보아라. 제 입에 손을 대고 소리를 내어 보면 무엇이 움직이는지 알 것이다.' },
         { fiction: 'daesa' },
       ] },
-      { id: 'c3-2', type: 'choice', who: 'bakyeon', q: '자, 손을 대고 소리를 내어 보시오. 어느 자리부터 살피겠소?',
+      { id: 'c3-2', type: 'choice', who: 'bakyeon', q: '자, 손을 대고 소리를 내어 보시오. 어느 자리부터 살피겠소?', scene: 'sc_jiphyeon',
         pre: [
           '임금은 음악을 맡아 본 **박연**을 불러 함께 살피게 했다. 박연은 율관(律管)으로 소리의 높낮이를 재던 사람이었다.',
           { who: 'bakyeon', t: '소리에는 반드시 나는 **자리**가 있소. 같은 자리에서 나는 소리끼리 묶으면 갈래가 보이지요.' },
@@ -258,9 +258,9 @@ window.STORY = [
 
   // ───────────────────────── 5장 · 글자를 모으다 ─────────────────────────
   {
-    id: 'ch5', no: '5장', title: '하늘과 땅과 사람', stage: 5, music: 'mountain',
+    id: 'ch5', no: '5장', title: '하늘과 땅과 사람', stage: 5, music: 'mountain', scene: 'sc_annex',
     steps: [
-      { id: 'c5-1', type: 'say', lines: [
+      { id: 'c5-1', type: 'say', scene: 'sc_jungseong', lines: [
         { who: 'king', t: '닿소리는 나는 자리를 본떴다. 허나 가운뎃소리는 어디에도 닿지 않는다. 무엇을 본뜰 것인가.' },
         '별채에 며칠째 답이 나오지 않았다. 그러던 어느 밤, 임금이 붓을 들어 점 하나를 찍었다.',
         '**ㆍ** — 둥근 하늘.\n**ㅡ** — 평평한 땅.\n**ㅣ** — 서 있는 사람.',
@@ -300,7 +300,7 @@ window.STORY = [
         { who: 'king', t: '이제 그대들이 직접 부려 보아라. 무엇을 닦을지는 스스로 정하여라.' },
       ] },
       // 모아쓰기를 직접 해 본다 — 한 글자를 마칠 때마다 저장된다
-      { id: 'c5-3b', type: 'build', mode: 'hapja',
+      { id: 'c5-3b', type: 'build', mode: 'hapja', scene: 'sc_annex',
         pre: [
           { who: 'king', t: '이번에도 그대가 직접 모아 보아라. 세 낱말을 주겠다. **첫소리 · 가운뎃소리 · 끝소리**를 골라 한 글자로 모아라.' },
           { card: { kind: 'note', title: '모으는 법', body: '아래에서 소리를 하나씩 누르면 위에 **모아진 글자**가 나타납니다. 끝소리가 없는 글자는 «없음»을 그대로 두세요.\n\n가운뎃소리를 고를 때 글자가 **어디에 붙는지**를 눈으로 보세요. 그것이 **부서법**입니다.' } },
@@ -327,7 +327,7 @@ window.STORY = [
         },
       },
       { id: 'c5-5', type: 'relic', pre: [{ who: 'king', t: '머잖아 이 일이 밖에 알려질 것이다. 그때 쓸 것을 하나 가져가라.' }], after: [{ conv: 'mulgeon' }] },
-      { id: 'c5-6', type: 'battle', enemy: 'doubt', tutorial: true, fiction: 'nonbyeon',
+      { id: 'c5-6', type: 'battle', enemy: 'doubt', tutorial: true, fiction: 'nonbyeon', scene: 'sc_annex',
         pre: [
           { who: 'jeongin', t: '이 일이 알려지면 반드시 반대가 나올 것이오. 미리 **스스로 반론을 세워** 답해 보시오. 그것이 가장 좋은 준비요.' },
           { who: 'jeongin', t: '서두르지 마시오. 상대가 무슨 말을 하려는지 **먼저 보고** 답하시오.' },
@@ -401,9 +401,9 @@ window.STORY = [
 
   // ───────────────────────── 7장 · 펴내다 ─────────────────────────
   {
-    id: 'ch7', no: '7장', title: '스물여덟 자를 펴다', stage: 7, music: 'mountain',
+    id: 'ch7', no: '7장', title: '스물여덟 자를 펴다', stage: 7, music: 'mountain', scene: 'sc_banpo',
     steps: [
-      { id: 'c7-1', type: 'say', lines: [
+      { id: 'c7-1', type: 'say', scene: 'sc_haerye', lines: [
         '반대를 넘긴 뒤에도 일은 끝나지 않았다. 임금은 글자만으로는 부족하다고 보았다.',
         { who: 'king', t: '글자를 내놓기만 해서는 아니 된다. **왜 이렇게 만들었는지**를 적어 함께 내어라. 그래야 뒷사람이 함부로 고치지 못한다.' },
         { who: 'jeongin', t: '여덟 사람이 나누어 맡겠사옵니다.' },
@@ -411,7 +411,7 @@ window.STORY = [
         { card: { kind: 'note', title: '"집현전 8학사"는 잘못된 말', body: '해례를 지은 여덟 사람 가운데 **정인지와 강희안은 집현전 소속이 아니었어요**(정인지는 예조판서, 강희안은 돈녕부 주부). 그래서 "집현전 8학사"라고 하면 틀려요.\n\n또 **글자 28자를 만든 것은 세종**이고(실록에 "임금이 친히 지으셨다"), 여덟 사람이 맡은 것은 **해설서(해례)**예요. "세종이 혼자 다 했다"도, "집현전 학자들이 만들었다"도 정확하지 않아요.' } },
         { who: 'narrator', t: '자, 마지막이오. 붓을 들기 전에 그대 스스로에게 물어야 할 것이 남았소.' },
       ] },
-      { id: 'c7-2', type: 'battle', enemy: 'last',
+      { id: 'c7-2', type: 'battle', enemy: 'last', scene: 'sc_haerye',
         pre: [
           '해례를 적어 내려가던 {성명:은} 문득 붓을 멈추었다. 마지막 물음이 스스로에게서 올라왔다.',
           { who: 'doubt', t: '글자를 만든다고 세상이 바뀌겠는가? 배울 틈도 없는 사람들에게 글자가 무슨 소용인가?' },
@@ -421,7 +421,7 @@ window.STORY = [
           '물음이 사그라들었다. {성명:은} 다시 붓을 들었다.',
         ],
       },
-      { id: 'c7-3', type: 'say', music: 'palace', lines: [
+      { id: 'c7-3', type: 'say', music: 'palace', scene: 'sc_banpo', lines: [
         '**세종 28년(1446) 9월**, 『훈민정음』이 이루어졌다. 실록은 이렇게 적었다. "이달에 훈민정음이 이루어졌다."',
         { who: 'narrator', t: '(붓을 놓으며) 또 "이달에"요. 미안하오, 정말 날짜를 안 일러 주더구먼.' },
         '책머리에는 임금이 직접 쓴 글이 실렸다.',
