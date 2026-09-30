@@ -240,7 +240,7 @@
     const list = h('div.options.two');
     ctx.main.appendChild(list);
     const pick = await new Promise((res) => {
-      for (const [v, t, d] of [['m', '아들', '남성 영웅소설의 길'], ['f', '딸', '여성 영웅소설의 길']]) {
+      for (const [v, t, d] of [['m', '첫째 길', ''], ['f', '둘째 길', '']]) {
         const b = h('button.opt.big', { type: 'button' }, h('span.ot', t), h('span.od', d));
         b.addEventListener('click', () => { G.audio.pick(); res(v); });
         list.appendChild(b);

@@ -17,7 +17,7 @@ async function setup(extraDone) {
     Object.assign(s, { path: 'm', surname: '홍', given: '대웅', look: 'general', abil: { mu: 1, byeong: 1, sul: 1 }, relic: 'sword' });
     for (const c of STORY) if (c.id !== 'ch7') { s.chDone[c.id] = true; for (const st of c.steps) s.done[st.id] = true; }
     for (const id of ['c7-1', 'b:b7-1', ...extra]) s.done[id] = true;
-    localStorage.setItem('hero-road-v1', JSON.stringify(s));
+    localStorage.setItem('jeongeum-road-v1', JSON.stringify(s));
   }, extraDone);
   await page.goto(BASE + '?ch=ch7');
   await page.locator('.dlg-tray button.primary').click(); // 이어서

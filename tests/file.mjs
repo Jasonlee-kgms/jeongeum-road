@@ -24,7 +24,7 @@ await page.waitForSelector('.dlg .say');
 const drawn = await page.evaluate(() => { const c = document.querySelector('canvas.wcv'); return c.width > 0 && Object.keys(SPRITES).length > 30; });
 if (!drawn) errors.push('맵이 그려지지 않음');
 await page.screenshot({ path: 'shots/file_open.png' });
-const saved = await page.evaluate(() => { G.save.write(); return !!localStorage.getItem('hero-road-v1'); });
+const saved = await page.evaluate(() => { G.save.write(); return !!localStorage.getItem('jeongeum-road-v1'); });
 console.log('배경음:', JSON.stringify(bgm));
 console.log('file:// 열기', errors.length ? '오류: ' + errors.join(' / ') : '오류 없음', '· 저장', saved ? '됨' : '안 됨');
 await browser.close();

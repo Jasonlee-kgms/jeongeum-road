@@ -47,7 +47,7 @@ await setup(() => {
   Object.assign(s, { path: 'm', surname: '홍', given: '대웅', look: 'youth', abil: { mu: 1, byeong: 1, sul: 1 } });
   for (const c of STORY.slice(0, 5)) { s.chDone[c.id] = true; for (const x of c.steps) s.done[x.id] = true; for (const b of QUESTS[c.id].beats) s.done['b:' + b.id] = true; }
   for (const id of ['c5-1', 'c5-2', 'c5-3', 'b:b5-1', 'b:b5-2', 'b:b5-3']) s.done[id] = true;
-  localStorage.setItem('hero-road-v1', JSON.stringify(s));
+  localStorage.setItem('jeongeum-road-v1', JSON.stringify(s));
 });
 await resume();
 await waitGoal(); // 정인지의 첫말을 넘기고
@@ -81,7 +81,7 @@ await setup(() => {
   Object.assign(s, { path: 'm', surname: '홍', given: '대웅', abil: { mu: 1, byeong: 1, sul: 1 } });
   s.chDone.ch0 = true; for (const x of STORY[0].steps) s.done[x.id] = true; for (const b of QUESTS.ch0.beats) s.done['b:' + b.id] = true;
   for (const id of ['c1-1', 'b:b1-1']) s.done[id] = true;
-  localStorage.setItem('hero-road-v1', JSON.stringify(s));
+  localStorage.setItem('jeongeum-road-v1', JSON.stringify(s));
 });
 await resume();
 await waitGoal();

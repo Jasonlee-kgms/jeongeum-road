@@ -80,7 +80,7 @@ def brush_chars():
     # 붓글씨는 타이틀·장 제목·아들/딸 단추에만 쓴다(학생이 지은 이름은 명조로 보인다)
     with open(os.path.join(ROOT, 'js', 'data', 'story.js'), encoding='utf-8') as fh:
         titles = re.findall(r"no: '[^']+', title: '([^']+)'", fh.read())
-    return ''.join(sorted(set('영웅의 길아들딸' + ''.join(titles))))
+    return ''.join(sorted(set('정음의 길' + ''.join(titles))))
 
 
 text = used_chars()

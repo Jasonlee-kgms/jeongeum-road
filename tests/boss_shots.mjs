@@ -30,7 +30,7 @@ await page.evaluate((ch) => {
   const upto = STORY.findIndex((c) => c.id === ch);
   for (const c of STORY.slice(0, upto)) { s.chDone[c.id] = true; for (const x of c.steps) s.done[x.id] = true; for (const b of QUESTS[c.id].beats) s.done['b:' + b.id] = true; }
   if (ch === 'ch7') { s.skills = { learned: ['combo', 'talisman', 'blink', 'formation'], equip: ['talisman', 'blink'], points: 1, got: 5 }; for (const id of ['c7-1', 'b:b7-1', 'b:b7-2']) s.done[id] = true; }
-  localStorage.setItem('hero-road-v1', JSON.stringify(s));
+  localStorage.setItem('jeongeum-road-v1', JSON.stringify(s));
 }, CH);
 await page.goto(BASE);
 await page.locator('button', { hasText: '이어 하기' }).click();

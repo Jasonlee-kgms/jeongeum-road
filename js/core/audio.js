@@ -8,7 +8,6 @@
 //  - 장구(덩·쿵·덕·기덕), 북, 징, 낮은 지속음, 은은한 배경음(꿈 장면)
 //  - 잔향: 합성한 공간 울림(ConvolverNode)
 // 곡은 장마다 분위기에 맞춰 고른다(STORY의 music, 단계의 music). 배경음·효과음은 설정에서 따로 끈다.
-// 합성 엔진과 곡(TRACKS)은 원작 「영웅의 길」(박준일)의 것을 그대로 쓴다.
 (function () {
   const MUSIC_VOL = 0.5, SFX_VOL = 0.8;
   let ctx = null, comp, musicBus, sfxBus, revIn;
@@ -275,7 +274,7 @@
     night12: [[0, 'kung', 0.45], [9, 'deok', 0.2]],                                                          // 게임용 창작(밤·슬픔)
   };
 
-  // ───────── 곡 (원작 「영웅의 길」의 것). gain = 곡끼리 음량 맞춤(tests/audio.mjs로 잼), drum = 장단 세기 배율(글을 읽는 장면은 작게)
+  // ───────── 곡. gain = 곡끼리 음량 맞춤(tests/audio.mjs로 잼), drum = 장단 세기 배율(글을 읽는 장면은 작게)
   //  market 저잣거리(굿거리) → court 조정(중모리) → heaven 고요함(장단 없음) → child 밝음(세마치)
   //  → scheme 긴장(해금이 기어감)·ruin(계면조 대금) → mountain 수련(중중모리) → palace 대궐(굿거리)·tension(살금살금)
   //  → 전투(자진모리) → 7장 결전(휘모리) → 승리·재회(중모리 평조) · 규방(계면조 중모리)

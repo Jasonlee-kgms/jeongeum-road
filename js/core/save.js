@@ -1,7 +1,7 @@
 'use strict';
 // 진행 저장: 이 브라우저(localStorage)에만 저장하고 서버로 보내지 않는다
 (function () {
-  const KEY = 'hero-road-v1';
+  const KEY = 'jeongeum-road-v1';
   const fresh = () => ({
     v: 1,
     mode: 'basic',          // basic: 처음 배우기(고1 공통국어) / deep: 깊이 읽기(고2·3 문학)
