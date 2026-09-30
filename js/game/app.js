@@ -72,7 +72,8 @@
       menu,
       null,
       h('div.credit', '『세종실록』과 『훈민정음』 해례본을 바탕으로 지은 이야기예요 · 인물의 대사는 지어낸 것이에요'),
-      h('div.credit.maker', '만든이 박준일(온양여자고등학교 국어 교사)'),
+      h('div.credit.maker', '만든이 이종석(한국글로벌중학교 국어 교사)'),
+      h('div.credit.bgm', '원작 「영웅의 길」 박준일(온양여자고등학교 국어 교사)'),
       window.BGM ? h('div.credit.bgm', BGM.credit) : null,
       musicToggle()));
   };
@@ -513,7 +514,7 @@
       seg('선생님용', 'teacher', [[false, '끄기'], [true, '모든 장 열기 + 논변 건너뛰기']]),
       h('p.small.muted', '바로가기: 주소 끝에 ?ch=ch5처럼 붙이면 그 장으로 바로 가요(ch0 서장, ch1~ch7). ?teacher=1은 선생님용을 켜요.'),
       h('p.small.muted', '진행 상황은 이 브라우저에만 저장돼요(서버로 보내지 않아요).'),
-      h('p.small.muted', '원작 「영웅의 길」 박준일(온양여자고등학교 국어 교사) · 훈민정음판으로 고쳐 만듦'),
+      h('p.small.muted', '만든이 이종석(한국글로벌중학교 국어 교사) · 원작 「영웅의 길」 박준일(온양여자고등학교 국어 교사)'),
     ], [{ label: '처음부터 새로', value: 'reset' }, { label: '타이틀로', value: 'title' }, { label: '닫기', value: true, cls: 'primary' }]);
     if (res === 'reset') app.newGame(true);
     if (res === 'title') app.title();
