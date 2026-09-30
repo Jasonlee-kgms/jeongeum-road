@@ -11,7 +11,7 @@ window.PEOPLE = {
   sinsuk: { name: '신숙주', pt: 'pt_yunseon', color: '#36548f', role: '함께 일하는 또래 학사. 운서에 밝다' },
   seongsam: { name: '성삼문', pt: '', color: '#8a6a2a', role: '함께 일하는 또래 학사. 발이 넓고 부지런하다' },
   choemal: { name: '최만리', pt: 'pt_father', color: '#b3342a', role: '집현전 부제학. 새 글자 만드는 일을 반대하는 상소를 올린다' },
-  scribe: { name: '대서인', pt: '', color: '#6d8a5a', role: '저잣거리에서 삯을 받고 글을 대신 써 주는 사람' },
+  scribe: { name: '대서인', pt: 'pt_scribe', color: '#7a6a52', role: '저잣거리에서 삯을 받고 글을 대신 써 주는 사람' },
   widow: { name: '아낙', pt: 'pt_mother', color: '#6d8a5a', role: '억울한 일을 당했으나 소지를 쓸 줄 모르는 백성' },
   doubt: { name: '의심', pt: 'pt_phantom', color: '#6d6a70', role: '스스로 세워 보는 반론. 실제 인물이 아니다(게임 설정)' },
   hero: { name: '{호}', pt: '', color: '#2a2119', role: '주인공. 집현전에 갓 들어온 젊은 학사(게임이 지어낸 인물)' },
